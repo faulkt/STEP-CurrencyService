@@ -1,0 +1,7 @@
+# Ignore non-important node files
+node_modules
+build
+npm-debug.log
+
+# macOS system files
+.DS_Store

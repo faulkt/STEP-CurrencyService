@@ -1,0 +1,24 @@
+{
+  "name": "step-currencyservice",
+  "version": "1.0.0",
+  "description": "Modified version of Currency Service for STEP",
+  "main": "server-http.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faulkt/STEP-CurrencyService.git"
+  },
+  "author": "Dynatrace",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/faulkt/STEP-CurrencyService/issues"
+  },
+  "homepage": "https://github.com/faulkt/STEP-CurrencyService#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "pino": "^7.6.2"
+  }
+}
