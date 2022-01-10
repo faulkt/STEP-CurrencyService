@@ -2,10 +2,45 @@
 #
 # Stop on Errors
 # See https:vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
-set -Eeuxo pipefail
+set -Eeuo pipefail
 
-export OTEL_COLLECTOR_URL="https://<ENVIRONMENT_ID>.live.dynatrace.com/api/v2/otlp/v1/traces"
-export AUTH_HEADER="<DYNATRACE_API_TOKEN>"
-export PORT=7000
+# Command line options
+usage() {
+    echo "Usage: $0 (vanilla|instrument|debug)"
+}
 
-node server-http.js
+# If the number of args passed from command line doesn't equal 1, then exit and print usage
+if [ $# -ne 1 ]; then
+    usage
+    exit 1
+fi
+
+case $1 in 
+    "vanilla")
+        echo "Starting Currency Service in vanilla mode"
+        export OTEL_COLLECTOR_URL=${OTEL_COLLECTOR_URL}
+        export AUTH_HEADER=${AUTH_HEADER}
+        export PORT=${PORT}
+        node server-http.js
+        ;;
+    "instrument")
+        echo "Starting Currency Service with instrumentation enabled"
+        export OTEL_COLLECTOR_URL=${OTEL_COLLECTOR_URL}
+        export AUTH_HEADER=${AUTH_HEADER}
+        export PORT=${PORT}
+        node --require './tracing.js' server-http.js
+        ;;
+
+    "debug")
+        # TODO: Add debug flags to run currency service in debug mode
+        echo "Starting Currency Service in debug mode"
+        export OTEL_COLLECTOR_URL=${OTEL_COLLECTOR_URL}
+        export AUTH_HEADER=${AUTH_HEADER}
+        export PORT=${PORT}
+        node server-http.js
+        ;;
+    *)
+        usage
+        exit 1
+        ;;
+esac
