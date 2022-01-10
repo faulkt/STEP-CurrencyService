@@ -18,8 +18,6 @@ fi
 case $1 in 
     "vanilla")
         echo "Starting Currency Service in vanilla mode"
-        export OTEL_COLLECTOR_URL=${OTEL_COLLECTOR_URL}
-        export AUTH_HEADER=${AUTH_HEADER}
         export PORT=${PORT}
         node server-http.js
         ;;

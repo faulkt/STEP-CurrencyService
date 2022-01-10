@@ -8,12 +8,28 @@ Modified version of the Dynatrace Currency Service for STEP Labs
 npm install
 ```
 
-- Run the `devstartup` script in the `/bin` folder to start the Currency Service in development mode.
+- Run the `devstartup` script in the `/bin` folder to start the Currency Service. There are three options you can utilize:
 ```
-./bin/devstartup
+./bin/devstartup vanilla
 ```
+will run the Currency Service in vanilla mode on port 7000 without any instrumentations or debug options. 
 
+```
+./bin/devstartup instrument
+```
+will run the Currency Service with OpenTelemetry instrumentation on port 7000.
+
+```
+./bin/devstartup debug
+```
+will run the Currency Service with OpenTelemetry instrumentation on port 7000 with all debug options enabled.
 
 # Technologies
 
 - Node.js 16.13.1
+
+# Environment Variables
+
+- `OTEL_COLLECTOR_URL` The URL of the OpenTelemetry collector
+- `AUTH_HEADER` The Authorization token for the OpenTelemetry collector
+- `PORT` The port the Currency Service will be run on
