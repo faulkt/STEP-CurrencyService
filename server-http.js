@@ -11,8 +11,7 @@ const exchangerateAPI = 'http://api.exchangeratesapi.io/v1/latest?access_key=34b
 const logger = pino({
     name: 'currencyservice-server',
     messageKey: 'message',
-    changeLevelName: 'severity',
-    useLevelLabels: true,
+    level: 'info',
 });
 
 const app = express();
@@ -44,8 +43,6 @@ function _getCurrencyData(callback) {
 
 
   function convert(from, to_code, callback) {
-    logger.info("received conversion request");
-    logger.info("querying API");
     const api = exchangerateAPI;
     const url = `${api}&base=${from.currency_code}&symbols=${to_code}`;
  
@@ -63,7 +60,7 @@ function _getCurrencyData(callback) {
       result.units = Math.floor(result.units);
       result.nanos = Math.floor(result.nanos);
       result.currency_code = to_code;
-      logger.info(`conversion request successful`);
+      logger.info(`Conversion request successful`);
       callback(null, result);
     });
   }
@@ -71,7 +68,8 @@ function _getCurrencyData(callback) {
 
   app.post('/convert', async (req, res, next) => {
       try {
-        logger.info('received conversion request');
+        logger.info('Received conversion request');
+        logger.info(req.headers)
         logger.info(req.body)
       const { from, to } = req.body;
       convert(from, to, (converterr, convertres) => {
@@ -80,7 +78,7 @@ function _getCurrencyData(callback) {
       });
       }
       catch (err) {
-        logger.error(`conversion request failed: ${err}`);
+        logger.error(`Conversion request failed: ${err}`);
         return next(error);
       }
       

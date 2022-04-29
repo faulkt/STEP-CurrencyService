@@ -17,11 +17,12 @@
   },
   "homepage": "https://github.com/faulkt/STEP-CurrencyService#readme",
   "dependencies": {
-    "@opentelemetry/auto-instrumentations-node": "^0.27.1",
-    "@opentelemetry/exporter-collector-proto": "^0.25.0",
-    "@opentelemetry/sdk-node": "^0.27.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.28.0",
+    "@opentelemetry/exporter-trace-otlp-proto": "^0.28.0",
+    "@opentelemetry/sdk-node": "^0.28.0",
     "cors": "^2.8.5",
-    "express": "^4.17.2",
-    "pino": "^7.6.2"
+    "express": "^4.18.0",
+    "pino": "^7.11.0",
+    "properties-reader": "^2.2.0"
   }
 }

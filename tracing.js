@@ -5,8 +5,11 @@ const opentelemetry = require('@opentelemetry/sdk-node');
 const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumentations-node');
 const { Resource } = require('@opentelemetry/resources');
 const { SemanticResourceAttributes } = require('@opentelemetry/semantic-conventions');
-const { CollectorTraceExporter } = require('@opentelemetry/exporter-collector-proto');
+//const { CollectorTraceExporter } = require('@opentelemetry/exporter-collector-proto');
+const { OTLPTraceExporter } = require("@opentelemetry/exporter-trace-otlp-proto");
 const { AlwaysOnSampler } = require('@opentelemetry/core');
+
+const propertiesReader = require('properties-reader')
 
 const OTLPoptions = {
   url: process.env.OTEL_COLLECTOR_URL,
@@ -16,18 +19,17 @@ const OTLPoptions = {
 };
 
 let dtmetadata = new Resource({})
-for (var name of [ 'dt_metadata_e617c525669e072eebe3d0f08212e8f2.properties', '/var/lib/dynatrace/enrichment/dt_metadata.properties' ]) {
+for (let name of [ 'dt_metadata_e617c525669e072eebe3d0f08212e8f2.properties', '/var/lib/dynatrace/enrichment/dt_metadata.properties' ]) {
   try {
-      dtmetadata = new Resource(propertiesReader(fs.readFileSync(name).toString()).getAllProperties())
-      break
-  } catch (e) {}
+    dtmetadata = dtmetadata.merge(new Resource(name.startsWith("/var") ? propertiesReader(name).getAllProperties() : propertiesReader(fs.readFileSync(name).toString()).getAllProperties()))
+  } catch { }
 }
 
-const collectorExporter = new CollectorTraceExporter(OTLPoptions);
+const otlpExporter = new OTLPTraceExporter(OTLPoptions);
 
 const sdk = new opentelemetry.NodeSDK({
   sampler: new AlwaysOnSampler(),
-  traceExporter: collectorExporter,
+  traceExporter: otlpExporter,
   instrumentations: [getNodeAutoInstrumentations()],
   resource: new Resource({
     [SemanticResourceAttributes.SERVICE_NAME]: 'Currency Service',
