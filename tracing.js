@@ -33,7 +33,7 @@ const sdk = new opentelemetry.NodeSDK({
   instrumentations: [getNodeAutoInstrumentations()],
   resource: new Resource({
     [SemanticResourceAttributes.SERVICE_NAME]: 'Currency Service',
-    [SemanticResourceAttributes.SERVICE_VERSION]: '1.0.1',
+    [SemanticResourceAttributes.SERVICE_VERSION]: '1.0.0',
   }).merge(dtmetadata),
 });
 
