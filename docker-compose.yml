@@ -8,3 +8,8 @@ services:
       - "7000:7000"
     env_file:
       - .env
+
+networks:
+  default:
+    name: nginx_network
+    external: true
