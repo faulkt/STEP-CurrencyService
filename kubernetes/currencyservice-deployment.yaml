@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: currencyservice
+  name: currencyservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: currencyservice
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: currencyservice
+    spec:
+      containers:
+        - image: tylerfaulkdt/step-otel-currencyservice:0.1
+          name: currencyservice
+          env:
+            - name: DT_TENANT_URL_CS
+              value: ""
+            - name: DT_API_TOKEN_CS
+              value: ""
+            - name: PORT
+              value: "7000"
+          ports:
+            - containerPort: 7000
+          # Resource Limits are experimental. Not Final.
+          resources:
+            requests:
+              memory: "1000M"
+              cpu: "1.0"
+            limits:
+              memory: "2000M"
+              cpu: "2.0"
+status: {}
