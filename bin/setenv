@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export DT_TENANT_URL_CS=""
+export DT_API_TOKEN_CS=""
+export PORT=7000
